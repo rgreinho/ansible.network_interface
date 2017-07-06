@@ -97,15 +97,19 @@
     and NetworkManager_service_present_disabled
 
 - name: Restart the "network" service on Red Hat systems
-  service: name=network state=restarted
+  command: systemctl restart network
   when: >
     network_allow_service_restart
     and ansible_os_family == 'RedHat'
     and network_service_present_enabled
+  async: 600
+  poll: 10
 
 - name: Restart the "NetworkManager" service on Red Hat systems
-  service: name=network state=restarted
+  command: systemctl restart network
   when: >
     network_allow_service_restart
     and ansible_os_family == 'RedHat'
     and NetworkManager_service_present_enabled
+  async: 600
+  poll: 10
